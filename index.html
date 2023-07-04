@@ -98,6 +98,10 @@
                    
           
           
+            <li class="menu-item search-btn">
+              <a href="#">Search</a>
+            </li>
+          
         </ul>
       </nav>
     </div>
@@ -115,10 +119,10 @@
     </div>
     <div class="post-content profile-content">
         <div class="profile-title">
-            RealSpaccr says &#34;Hi&#34; to you
+            Nice to meet you
         </div>
         <div class="profile-body">
-            RealSpaccr usually writes some shits here, if you don&#39;t mind. Welcome.
+            RealSpaccr usually writes some shits here. If you don&#39;t mind, Welcome.
         </div>
         
             <div class="profile-link">
@@ -154,6 +158,37 @@
 
     </div>
 
+    
+      <div class="search-popup">
+    <div class="search-popup-overlay">  
+    </div>
+    <div class="search-popup-window" >
+        <div class="search-header">
+            <div class="search-input-container">
+              <input autocomplete="off" autocapitalize="off" maxlength="80"
+                     placeholder="Search Anything" spellcheck="false"
+                     type="search" class="search-input">
+            </div>
+            <div class="search-close-btn">
+                <div class="icon close-btn"></div>
+            </div>
+        </div>
+        <div class="search-result-container">
+        </div>
+    </div>
+</div>
+
+<script>
+    const searchConfig = {
+        path             : "/search.xml",
+        top_n_per_article: "1",
+        unescape         : "false",
+        trigger: "auto",
+        preload: "false"
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script>
+<script src="/js/search.js"></script>
     
     
 
