@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <meta name="author" content="RealSpaccr/huhu994/Moore Dylan">
+
+
+    <meta name="subtitle" content="GOGOGOGOGO">
+
+
+    <meta name="description" content="Write something about something">
+
+
+
+
+
+<title>Huhu994&#39;s Blog</title>
+
+
+
+    <link rel="icon" href="/favicon.ico">
+
+
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=Roboto+Mono&display=swap');
+</style>
+
+
+
+    <!-- stylesheets list from _config.yml -->
+    
+    <link rel="stylesheet" href="/css/style.css">
+    
+
+
+
+
+    <!-- scripts list from _config.yml -->
+    
+    <script src="/js/frame.js"></script>
+    
+
+
+
+
+
+
+
+    <script src='https://unpkg.com/valine@1.4.16/dist/Valine.min.js'></script>
+
+
+
+
+  <meta name="generator" content="Hexo 6.3.0"></head>
+  <body>
+    <div class="mask-border">
+    </div>
+
+    <div class="wrapper">
+
+      <div class="header">
+  <div class="flex-container">
+    <div class="header-inner">
+      <div class="site-brand-container">
+        <a href="/">
+          
+            Frame.
+          
+        </a>
+      </div>
+      <div id="menu-btn" class="menu-btn" onclick="toggleMenu()">
+        Menu
+      </div>
+      <nav class="site-nav">
+        <ul class="menu-list">
+          
+            
+              <li class="menu-item">
+                <a href="/">Home</a>
+              </li> 
+                   
+          
+            
+              <li class="menu-item">
+                <a href="/archives/">Archive</a>
+              </li> 
+                   
+          
+            
+              <li class="menu-item">
+                <a href="/categories/gallery/">Gallery</a>
+              </li> 
+                   
+          
+          
+            <li class="menu-item search-btn">
+              <a href="#">Search</a>
+            </li>
+          
+        </ul>
+      </nav>
+    </div>
+  </div>
+</div>
+
+
+      <div class="main">
+        <div class="flex-container">
+          <article id="post">
+
+  
+    <div class="post-head">
+    <div class="post-info">
+        <div class="tag-list">
+            
+        </div>
+        <div class="post-title">
+            
+            
+                *Untitled
+            
+            
+        </div>
+        <span class="post-date">
+            Dec 6, 2023
+        </span>
+    </div>
+    <div class="post-img">
+        
+            <div class="h-line-primary"></div>
+              
+    </div>
+</div>
+    <div class="post-content">
+    <h1 id="基于DCT技术的音频隐写破解"><a href="#基于DCT技术的音频隐写破解" class="headerlink" title="基于DCT技术的音频隐写破解"></a>基于DCT技术的音频隐写破解</h1><h2 id="尝试阶段"><a href="#尝试阶段" class="headerlink" title="尝试阶段"></a>尝试阶段</h2><p>使用Audacity工具观察音频的波形图和频谱图，什么信息也没发现。</p>
+<p><img src="D:\PicGo\typoraimage\image-20231206211421312.png" alt="image-20231206211421312"></p>
+<p>经过对手组提示，我们知道了他们对这段音频进行了LSB处理和DCT处理，而我讲负责DCT部分的解密。</p>
+<h2 id="分析阶段"><a href="#分析阶段" class="headerlink" title="分析阶段"></a>分析阶段</h2><p>对手组使用DCT技术在音频中嵌入了图像水印。</p>
+<p>数字水印技术是一种信息隐藏技术。音频数字水印算法就是将数字水印通过水印嵌入算法嵌入到音频文件中，例如（.wav、.mp3、.avi等），但人耳无法分辨嵌入前后的细微差别。</p>
+<h3 id="傅里叶变换（DFT）"><a href="#傅里叶变换（DFT）" class="headerlink" title="傅里叶变换（DFT）"></a>傅里叶变换（DFT）</h3><p>傅里叶级数：将一个周期的信号分解成无限多离散的正弦波。（在时域是一个周期且连续的函数，在频域则是一个非周期离散的函数）</p>
+<p>傅里叶变换：将一个时域非周期的连续信号，转换为一个在频域非周期的连续信号。</p>
+<p><img src="D:\PicGo\typoraimage\image-20231207150257287.png" alt="image-20231207150257287"></p>
+<p>DCT：即离散余弦变换，是一种特殊的DTF，即输入信号为实偶函数的DFT变换。将一个时域的信号转换到频域上。</p>
+<p>经过查阅参考资料1，DCT水印算法的思想如下：</p>
+<ol>
+<li><p>将原始音频转换为多声道数组（m*n），因为容纳图片需要更大的数组。然后对数组进行分块，假设得到了n个块</p>
+</li>
+<li><p>将需要嵌入的图像水印转换为灰度图像，大小为w*h</p>
+</li>
+<li><p>随机生成k密钥。密钥的维度和块维度相同。</p>
+</li>
+<li><p>水印的每个像素点可以看作特征点，因此有feature&#x3D;w*h个特征点。（如果n&lt;&#x3D;feature，则无法嵌入该图像水印）</p>
+</li>
+<li><p>取出第i个特征点的像素值，计算出change[i] &#x3D; k[i] x pixel_value</p>
+</li>
+<li><p>计算第i个原始音频块的DCT系数，称为dct block</p>
+</li>
+<li><p>将change[i] 嵌入第i个dct block中的最后一行或者最后一列中，dct block[i, collum − 1]+ &#x3D; change[i]</p>
+</li>
+<li><p>计算第i个dct block的逆DCT并保存</p>
+</li>
+<li><p>重复上述5~8，直至所有特征点都嵌入完成</p>
+</li>
+<li><p>得到嵌入水印的音频</p>
+</li>
+</ol>
+<p>PS：图片的像素点可以进行二值归一化，1代表黑色像素点，0表示白色像素点。</p>
+<p><img src="D:\PicGo\typoraimage\image-20231207213429486.png" alt="image-20231207213429486"></p>
+<h2 id="破解阶段"><a href="#破解阶段" class="headerlink" title="破解阶段"></a>破解阶段</h2><p>相应的，如果我们要从一段使用了DCT技术隐藏了图片水印的音频中提取出该水印，我们的步骤应该是：</p>
+<ol>
+<li><p>将音频数据按照一定长度分成多个块</p>
+</li>
+<li><p>对每个块进行DCT变换，得到DCT系数</p>
+</li>
+<li><p>从每个DCT系数中提取出嵌入的水印图像的像素值，得到时域图像</p>
+</li>
+<li><p>根据提取的像素值恢复水印图像</p>
+</li>
+</ol>
+<p><img src="D:\PicGo\typoraimage\image-20231207213441830.png" alt="image-20231207213441830"></p>
+<p>水印图片提取函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">DCT</span>(<span class="params">data</span>):</span><br><span class="line">    dct_audio = dct(data,norm =<span class="string">&#x27;ortho&#x27;</span>)</span><br><span class="line">    <span class="keyword">return</span> dct_audio</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">getLastBit</span>(<span class="params">number</span>):</span><br><span class="line">    <span class="keyword">if</span> <span class="built_in">type</span>(number) <span class="keyword">in</span> (<span class="built_in">int</span>, np.int16, np.int64):</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">int</span>(number % <span class="number">2</span>)</span><br><span class="line">    <span class="keyword">elif</span> <span class="built_in">type</span>(number) <span class="keyword">in</span> (<span class="built_in">float</span>, np.float64):</span><br><span class="line">        whole, dec = splitFloat(number)</span><br><span class="line">        <span class="keyword">return</span> getLastBit(whole)</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">dct_extract</span>(<span class="params">audio,<span class="built_in">len</span>,random</span>):</span><br><span class="line">    numFrames = math.ceil(audio.shape[<span class="number">0</span>] / <span class="built_in">len</span>)</span><br><span class="line">    <span class="built_in">print</span>(numFrames)</span><br><span class="line">    numFrames = numFrames - <span class="number">1</span></span><br><span class="line">    frames = <span class="built_in">list</span>()</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(numFrames):</span><br><span class="line">        frames.append(audio[i * <span class="built_in">len</span>: (i * <span class="built_in">len</span>) + <span class="built_in">len</span>])</span><br><span class="line">        <span class="comment"># 将小块存储在frame列表中</span></span><br><span class="line"></span><br><span class="line">    DCTCoeffs = np.zeros((numFrames, <span class="built_in">len</span>))</span><br><span class="line">    <span class="comment"># 创建二维数组，存储每个小块的DCT系数</span></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(numFrames):</span><br><span class="line">        DCTCoeffs[i] = DCT(frames[i])</span><br><span class="line">        <span class="comment"># 对每个小块进行DCT变换，将得到的DCT系数存储在二维数组中</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(numFrames):</span><br><span class="line">        <span class="keyword">if</span> i == <span class="number">0</span>:</span><br><span class="line">            audio0 = DCTCoeffs[i]</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            audio0 = np.concatenate((audio0, DCTCoeffs[i]), axis=<span class="number">0</span>)</span><br><span class="line">            <span class="comment"># 将所有小块的DCT系数拼接成一维数组audio0</span></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    width, heigth = (<span class="number">112</span>, <span class="number">112</span>)  <span class="comment"># sizeExtraction(joinAudio)</span></span><br><span class="line">    image = Image.new(<span class="string">&quot;1&quot;</span>, (width, heigth))</span><br><span class="line"></span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(width):</span><br><span class="line">        <span class="keyword">for</span> j <span class="keyword">in</span> <span class="built_in">range</span>(heigth):</span><br><span class="line">            x = i * heigth + j</span><br><span class="line">            r = random[x]</span><br><span class="line">            value = getLastBit(audio0[r])</span><br><span class="line">            image.putpixel(xy=(i, j), value=value)</span><br><span class="line">            <span class="comment"># 根据提供的随机数组random，以及getLastBit函数，构建一个112x112的图片，将提取的水印信息写入图片中</span></span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> image</span><br></pre></td></tr></table></figure>
+
+<ol>
+<li><p>对numFrames进行减1操作的目的是为了确保音频可以被完整地分成整数个长度为len的小块。</p>
+<p>因为在处理音频时，通常将其分割成固定长度的小块进行处理，但是最后一个小块大概率没有填满整个长度len，所以将numFrames-1，以忽略最后一个不完整的小块。</p>
+</li>
+<li><p>DCT函数调用了numpy中的dct函数进行DCT变换</p>
+</li>
+<li><p>在将音频信号分成小块后，我们可以使用DCT变换将每个小块转换为其在频域上的表示。</p>
+<p>在最后生成图片的过程中，我们可以使用经过处理的DCT系数来构建一张新的图像，以便显示水印信息。这样做的好处是，由于DCT系数对应于音频小块中不同的频率成分，因此可以用来更好地表示水印信息，并且可以减少由于噪声或其他干扰因素引起的误差。因此，使用DCT变换可以帮助我们更好地实现从音频中提取水印信息的目标。</p>
+</li>
+</ol>
+<p>主函数</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    root = <span class="string">&quot;..&quot;</span></span><br><span class="line">    resultList = random.sample(<span class="built_in">range</span>(<span class="number">0</span>, <span class="number">100000</span>), <span class="number">112</span>*<span class="number">112</span>)</span><br><span class="line">    frames = <span class="number">20</span></span><br><span class="line">    samplerate, data = wavfile.read(<span class="string">&quot;sample.wav&quot;</span>)</span><br><span class="line">    extract_watermark = dct_extract(audio=data,<span class="built_in">len</span>=frames,random = resultList)</span><br><span class="line">    extract_watermark.save(<span class="string">&quot;extract_watermark.png&quot;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+<p>得到的图片水印：</p>
+<p><img src="D:\PicGo\typoraimage\image-20231207214702158.png" alt="image-20231207214702158"></p>
+<p>参考资料:</p>
+<ol>
+<li><p>应用DCT实现对音频水印的添加和提取  [<a target="_blank" rel="noopener" href="https://weipp7.gitee.io/posts/e1e00902.html#%E5%85%B3%E9%94%AE%E4%BB%A3%E7%A0%81%E6%80%9D%E8%B7%AF]">https://weipp7.gitee.io/posts/e1e00902.html#%E5%85%B3%E9%94%AE%E4%BB%A3%E7%A0%81%E6%80%9D%E8%B7%AF]</a></p>
+</li>
+<li><p>傅里叶分析之掐死教程（完整版）  韩昊  [<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/19763358]">https://zhuanlan.zhihu.com/p/19763358]</a></p>
+</li>
+<li><p>信号处理–离散傅里叶变换（DFT） [<a target="_blank" rel="noopener" href="https://blog.csdn.net/qq_45732223/article/details/109772898]">https://blog.csdn.net/qq_45732223/article/details/109772898]</a></p>
+</li>
+<li><p>数字音频信息隐藏课件 陈文</p>
+</li>
+</ol>
+
+</div> 
+
+<script>
+    window.onload = detectors();
+</script>
+    <div class="post-footer">
+    <div class="h-line-primary"></div>
+    <nav class="post-nav">
+        <div class="prev-item">
+           
+        </div>
+        <div class="next-item">
+            
+                <div class="icon arrow-right"></div>
+                <div class="post-link">
+                  <a href="/2023/07/23/%E6%95%B0%E6%8D%AE%E7%BB%93%E6%9E%84/">Next</a>  
+                </div>  
+            
+        </div>
+    </nav>
+</div>
+
+    
+      <div class="post-comment">
+
+    
+        <div id="vcomments"></div>
+        <script>
+            var META = ['nick', 'mail', 'link'];
+            var meta = 'nick,mail';
+            meta = meta.split(',').filter(item => {
+                return META.includes(item);
+            });
+            new Valine({
+                el: '#vcomments',
+                appId: 'F66AtRvxG9PhCwW4hreCa8Wi-gzGzoHsz',
+                appKey: 'BWBfaEgWGZEiGGbyiwWWH7Go',
+                lang: 'en',
+                placeholder: 'Say something',
+                avatar: 'mp',
+                meta: meta
+            })
+        </script>    
+     
+
+     
+    
+    
+
+</div>
+     
+  
+</article>
+        </div>
+      </div>
+      
+      <div class="footer">
+    <div class="flex-container">
+        <div class="footer-text">
+            
+                something
+                <br>
+            
+            
+                © RealSpaccr | 
+            
+            
+                Powered by <a target="_blank" rel="noopener" href="https://hexo.io/">Hexo</a> & <a target="_blank" rel="noopener" href="https://github.com/zoeingwingkei/frame/">Frame</a>
+                
+        </div>
+    </div>
+</div>
+
+    </div>
+
+    
+      <div class="search-popup">
+    <div class="search-popup-overlay">  
+    </div>
+    <div class="search-popup-window" >
+        <div class="search-header">
+            <div class="search-input-container">
+              <input autocomplete="off" autocapitalize="off" maxlength="80"
+                     placeholder="Search Anything" spellcheck="false"
+                     type="search" class="search-input">
+            </div>
+            <div class="search-close-btn">
+                <div class="icon close-btn"></div>
+            </div>
+        </div>
+        <div class="search-result-container">
+        </div>
+    </div>
+</div>
+
+<script>
+    const searchConfig = {
+        path             : "/search.xml",
+        top_n_per_article: "1",
+        unescape         : "false",
+        trigger: "auto",
+        preload: "false"
+    }
+</script>
+<script src="https://cdn.jsdelivr.net/npm/hexo-generator-searchdb@1.4.0/dist/search.js"></script>
+<script src="/js/search.js"></script>
+    
+    
+
+  </body>
+</html>
