@@ -127,7 +127,7 @@
             
         </div>
         <span class="post-date">
-            Dec 28, 2023
+            Dec 29, 2023
         </span>
     </div>
     <div class="post-img">
@@ -137,29 +137,51 @@
     </div>
 </div>
     <div class="post-content">
-    <h1 id="网络攻防技术"><a href="#网络攻防技术" class="headerlink" title="网络攻防技术"></a>网络攻防技术</h1><h2 id="攻击分类的标准-amp-类别"><a href="#攻击分类的标准-amp-类别" class="headerlink" title="攻击分类的标准&amp;类别*"></a>攻击分类的标准&amp;类别*</h2><p>按照攻击发生时，攻击者与被攻击者之间的交互关系进行分类：</p>
-<ol>
-<li>本地攻击</li>
-<li>主动攻击（服务端攻击）</li>
-<li>被动攻击（客户端攻击）</li>
-<li>中间人攻击</li>
-</ol>
+    <h1 id="网络攻防技术"><a href="#网络攻防技术" class="headerlink" title="网络攻防技术*"></a>网络攻防技术*</h1><h2 id="攻击分类的标准-amp-类别"><a href="#攻击分类的标准-amp-类别" class="headerlink" title="攻击分类的标准&amp;类别*"></a>攻击分类的标准&amp;类别*</h2><h3 id="标准"><a href="#标准" class="headerlink" title="标准"></a>标准</h3><p>日常对网络攻击的分类并不严谨，学术上攻击分类从入侵检测需求出发，要求遵循以下标准：</p>
 <ul>
-<li>本地攻击</li>
+<li><p><strong>互斥性</strong>（分类类别不应重叠）</p>
+</li>
+<li><p><strong>完备性</strong>（覆盖所有可能的攻击）</p>
+</li>
+<li><p><strong>非二义性</strong>（类别划分清晰）</p>
+</li>
+<li><p><strong>可重复性</strong>（对一个样本多次分类结果一致）</p>
+</li>
+<li><p><strong>可接受性</strong>（符合逻辑和直觉）</p>
+</li>
+<li><p><strong>实用性</strong>（可用于深入研究和调查）</p>
+</li>
 </ul>
-<p>攻击者通过<strong>实际接触</strong>被攻击的主机而实施的攻击。</p>
+<br>
+
+<h3 id="类别"><a href="#类别" class="headerlink" title="类别"></a>类别</h3><p>按照攻击发生时，攻守双方之间的交互关系进行分类：</p>
 <ul>
-<li>主动攻击</li>
+<li><strong>本地攻击&#x2F;物理攻击</strong></li>
 </ul>
-<p>攻击者对被攻击主机所运行的Web、FTP（文件传输协议）、Telnet等<strong>开放网络服务</strong>实施攻击。</p>
+<p>攻击者通过<strong>实际接触</strong>被攻击的主机而实施的攻击。（如：U盘、拔网线）</p>
 <ul>
-<li>被动攻击</li>
+<li><strong>主动攻击（服务器端）</strong></li>
 </ul>
-<p>攻击者利用浏览器、邮件接收程序、文字处理程序等<strong>客户端应用程序漏洞或系统用户弱点</strong>，对目标实施各种攻击。</p>
+<p>攻击者对被攻击主机所运行的 Web、FTP（文件传输协议）、Telnet等<strong>开放网络服务</strong>实施攻击。</p>
+<blockquote>
+<p>攻击者——&gt;服务器</p>
+</blockquote>
 <ul>
-<li>中间人攻击</li>
+<li><strong>被动攻击（客户端）</strong></li>
+</ul>
+<p>攻击者利用浏览器、邮件接收程序、文字处理程序等<strong>客户端应用程序漏洞或系统用户弱点</strong>，对目标实施各种攻击。（局限于受害者自己的弱点，如：钓鱼网站&#x2F;邮件、XSS等）</p>
+<blockquote>
+<p>用户&lt;——恶意服务器</p>
+</blockquote>
+<ul>
+<li><strong>中间人攻击</strong></li>
 </ul>
 <p>指攻击者处于被攻击主机的某个网络应用的<strong>中间人位置</strong>，进行数据窃听、破坏和篡改等攻击。</p>
+<blockquote>
+<p>​         攻击者<br>​                     |<br>客户程序 &lt;—— 服务器</p>
+</blockquote>
+<br>
+
 <h2 id="攻击步骤与方法"><a href="#攻击步骤与方法" class="headerlink" title="攻击步骤与方法*"></a>攻击步骤与方法*</h2><p><em><strong>每个步骤的详细理解</strong></em></p>
 <p>一个完整的、有预谋的攻击通常可以分为5个步骤：</p>
 <ol>
@@ -220,7 +242,7 @@
 <li>不引人关注的职业，攻击新员工，伪装身份，正面攻击，构造陷阱施以援手，制造陷阱骗取同情与帮助</li>
 <li>施以小恩小惠，垃圾搜寻，结合多种技术手段</li>
 </ul>
-<h1 id="信息收集技术"><a href="#信息收集技术" class="headerlink" title="信息收集技术"></a>信息收集技术</h1><h2 id="公开信息收集"><a href="#公开信息收集" class="headerlink" title="公开信息收集"></a>公开信息收集</h2><p><em><strong>定义、内容、分类及必要性</strong></em></p>
+<h1 id="信息收集技术"><a href="#信息收集技术" class="headerlink" title="信息收集技术*"></a>信息收集技术*</h1><h2 id="公开信息收集"><a href="#公开信息收集" class="headerlink" title="公开信息收集"></a>公开信息收集</h2><p><em><strong>定义、内容、分类及必要性</strong></em></p>
 <p>定义：</p>
 <p>内容：</p>
 <p>利用Web服务</p>
